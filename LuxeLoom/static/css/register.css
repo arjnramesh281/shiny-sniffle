@@ -1,0 +1,59 @@
+/* Prevent scrolling */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+.login-section {
+    background-color: #9A616D;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 1200px;
+    height: 100%;
+}
+
+.login-card {
+    height: 100%;
+    border-radius: 1rem;
+    margin: 0;
+    overflow: hidden;
+}
+
+.equal-height-row {
+    height: 100%;
+    margin: 0;
+}
+
+.image-column {
+    height: 100%;
+    padding: 0;
+}
+
+.login-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 1rem 0 0 1rem;
+}
+
+.form-column {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0;
+}
+
+.form-container {
+    width: 100%;
+    padding: 2rem;
+}

@@ -14,7 +14,7 @@
 </head>
 <body>
     <section style="background-color: #000000;">
-        <div class="container py-4 full-height-row">
+        <div class="container py-4 pt-4 full-height-row">
             <div class="row d-flex justify-content-center align-items-center full-height-row">
                 <div class="col col-xl-10">
                     <div class="card full-height-card" style="border-radius: 1rem;">
@@ -28,7 +28,8 @@
                             <!-- Form column -->
                             <div class="col-md-6 col-lg-7">
                                 <div class="login-form-container card-body p-4 p-lg-5 text-black">
-                                    <form class="w-100">
+                                    <form class="w-100" method="post">
+                                        {% csrf_token %}
                                         <!-- Updated logo -->
                                         <div class="d-flex justify-content-center mb-3 pb-1">
                                             <img src="{% static '/images/logo.png' %}" 
@@ -40,34 +41,37 @@
                                         <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">
                                             Sign into your account
                                         </h5>
+
+                                        {% if messages %}
+                                        {% for message in messages %}
+                                        <div class="alert alert-secondary alert-dismissible">
+                                          <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                          {{ message }}
+                                        </div>
+                                        {% endfor %}
+                                        {% endif %}
                                         
                                         <div class="form-outline mb-4">
-                                            <input type="email" 
-                                                   id="form2Example17" 
-                                                   class="form-control form-control-lg" />
+                                            <input type="text" id="form2Example17" name="username" class="form-control form-control-lg" />
                                             <label class="form-label" for="form2Example17">
                                                 Email address
                                             </label>
                                         </div>
                                         
                                         <div class="form-outline mb-4">
-                                            <input type="password" 
-                                                   id="form2Example27" 
-                                                   class="form-control form-control-lg" />
+                                            <input type="password" id="form2Example27" name="password" class="form-control form-control-lg" />
                                             <label class="form-label" for="form2Example27">
                                                 Password
                                             </label>
                                         </div>
                                         
                                         <div class="pt-1 mb-4">
-                                            <button class="btn btn-dark btn-lg btn-block" type="button">
-                                                Login
-                                            </button>
+                                            <input class="btn btn-dark btn-lg btn-block w-100" type="submit" value="Login">
                                         </div>
                                         
-                                        <p class="mb-5 pb-lg-2" style="color: #393f81;">
+                                        <p class="mb-5 pb-lg-2 text-center" style="color: #393f81;">
                                             Don't have an account? 
-                                            <a href="#!" style="color: #393f81;">Register here</a>
+                                            <a href="registration" style="color: #393f81;">Register here</a>
                                         </p>
                                     </form>
                                 </div>

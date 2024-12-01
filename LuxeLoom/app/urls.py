@@ -8,6 +8,9 @@ urlpatterns=[
     path('',views.log),
     # admin page
     path('admin_home',views.admin_home),
+    path('pro_list',views.pro_list),
+    # add product
+    path('add_pro',views.add_pro),
     # logout
     path('logout',views.admin_logout),
 

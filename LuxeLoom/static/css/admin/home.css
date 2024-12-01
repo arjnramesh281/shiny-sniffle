@@ -1,0 +1,73 @@
+        /* Admin Panel Specific Styles */
+        body {
+            background-color: #f4f4f4;
+        }
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(to bottom, #000, #333);
+            color: white;
+            padding: 20px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            overflow-y: auto;
+        }
+        .sidebar .nav-link {
+            color: white;
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            transition: background-color 0.3s ease;
+        }
+        .sidebar .nav-link i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        .sidebar .nav-link:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+        .sidebar .nav-link.active {
+            background-color: rgba(255,255,255,0.2);
+        }
+        .main-content {
+            flex-grow: 1;
+            margin-left: 250px;
+            padding: 20px;
+        }
+        .admin-navbar {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .admin-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            padding: 20px;
+        }
+        .dashboard-stats {
+            display: flex;
+            justify-content: space-between;
+        }
+        .stat-card {
+            background: linear-gradient(to right, #000, #333);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            width: 22%;
+        }
+        .stat-card h3 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }

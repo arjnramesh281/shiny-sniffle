@@ -40,7 +40,48 @@ def admin_logout(req):
     logout(req)
     req.session.flush()
     return redirect(log)
+
+
+
+# add product
+
+def add_pro(req):
+    if 'admin' in req.session:
+        if req.method=='POST':
+            pid=req.POST['pid']
+            name=req.POST['name']
+            dis=req.POST['dis']
+            price=req.POST['price']
+            off_price=req.POST['off_price']
+            stock=req.POST['stock']
+            file=req.FILES['img']
+            category=req.POST['category']
+            data=Product.objects.create(pid=pid,name=name,dis=dis,price=price,off_price=off_price,stock=stock,img=file,category=category)
+            data.save()
+            return redirect(admin_home)
+        else:
+            return render(req,'admin/add_pro.html')
+    else:
+        return redirect(log)
     
+
+# admin home 
+    
+def admin_home(req):
+    if 'admin' in req.session:
+        # data=Product.objects.all()
+        return render(req,'admin/home.html')
+    else:
+        return redirect(log)
+    
+def pro_list(req):
+    if 'admin' in req.session:
+        data=Product.objects.all()
+        return render(req,'admin/pro_list.html',{'products':data})
+    else:
+        return redirect(log)
+
+
 
 # user home
 

@@ -11,6 +11,8 @@ urlpatterns=[
     path('pro_list',views.pro_list),
     # add product
     path('add_pro',views.add_pro),
+    # add carousel
+    path('carousel_edit',views.carousel),
     # logout
     path('logout',views.admin_logout),
 
@@ -19,5 +21,7 @@ urlpatterns=[
 
     # user home
     path('userhome',views.user_home),
+    
+    path('about',views.about),
 
 ]

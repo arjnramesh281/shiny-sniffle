@@ -81,12 +81,20 @@ def pro_list(req):
     else:
         return redirect(log)
 
+# to change carousel
+
+def carousel(req):
+    return render(req,'admin/carousel.html')
 
 
 # user home
 
 def user_home(req):
     return render(req,'user/uhome.html')
+
+
+def about(req):
+    return render(req,'user/about.html')
 
 
 # registration page
@@ -106,9 +114,10 @@ def reg(req):
     else:
      return render(req,'user/register.html')
 
-# def user_home(req):
-#     if 'user' in req.session:
-#         data=Product.objects.all()
-#         return render(req,"user/home.html",{"products":data})
-#     else:
-#         return redirect(log)
+def user_home(req):
+    if 'user' in req.session:
+        data=Product.objects.all()
+        return render(req,"user/uhome.html",{"products":data})
+    else:
+        return redirect(log)
+

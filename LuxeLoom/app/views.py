@@ -42,6 +42,21 @@ def admin_logout(req):
     return redirect(log)
 
 
+# add category
+
+def add_category(req):
+    if 'admin' in req.session:
+        if req.method=='POST':
+            c_name=req.POST['c_name']
+            data=Category.objects.create(c_name=c_name.lower())
+            data.save()
+            return redirect(add_category)
+        else:
+            return render(req,'admin/add_category.html')
+    else:
+        return redirect(log)
+    
+
 
 # add product
 
@@ -53,10 +68,12 @@ def add_pro(req):
             dis=req.POST['dis']
             price=req.POST['price']
             off_price=req.POST['off_price']
-            stock=req.POST['stock']
             file=req.FILES['img']
-            category=req.POST['category']
-            data=Product.objects.create(pid=pid,name=name,dis=dis,price=price,off_price=off_price,stock=stock,img=file,category=category)
+            gender=req.POST['gender']
+            pro_category=req.POST['pro_category']
+            pro_brand=req.POST['pro_brand']
+            data=Product.objects.create(pid=pid,name=name,dis=dis,price=price,off_price=off_price,img=file,
+                                        gender=gender,pro_category=pro_category,pro_brand=pro_brand)
             data.save()
             return redirect(admin_home)
         else:
@@ -97,7 +114,7 @@ def about(req):
     return render(req,'user/about.html')
 
 
-# registration page
+# registration function
 
 def reg(req):
     if req.method=='POST':

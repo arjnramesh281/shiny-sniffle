@@ -11,8 +11,14 @@ urlpatterns=[
     path('admin_home',views.admin_home),
     path('pro_list',views.pro_list),
 
+    # add brand.
+    path('add_brand',views.add_brand),
+    path('delete_brand/<int:id>/', views.delete_brand, name='delete_brand'),
+
+
     # add category
     path('add_category',views.add_category),
+    path('delete_category/<int:id>/', views.delete_category, name='delete_category'),
 
     # add product
     path('add_pro',views.add_pro),

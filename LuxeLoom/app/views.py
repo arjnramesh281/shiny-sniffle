@@ -7,6 +7,9 @@ import os
 
 
 # Create your views here.
+
+# ----------------login ---------------
+
 def log(req):
     if 'admin' in req.session:
         return redirect(admin_home)
@@ -34,7 +37,7 @@ def log(req):
 def admin_home(req):
     return render(req,'admin/home.html')
 
-# Logout function..
+# --------------Logout function----------------
 
 def admin_logout(req):
     logout(req)
@@ -42,47 +45,110 @@ def admin_logout(req):
     return redirect(log)
 
 
-# add category
+# --------------add category and display-------------
 
 def add_category(req):
     if 'admin' in req.session:
-        if req.method=='POST':
-            c_name=req.POST['c_name']
-            data=Category.objects.create(c_name=c_name.lower())
-            data.save()
-            return redirect(add_category)
+        if req.method == 'POST':
+            c_name = req.POST['c_name']
+            Category.objects.create(c_name=c_name.lower())
+            categories = Category.objects.all()
+            return render(req, 'admin/add_category.html', {'categories': categories})
         else:
-            return render(req,'admin/add_category.html')
+            categories = Category.objects.all()
+            return render(req, 'admin/add_category.html', {'categories': categories})
+    else:
+        return redirect(log)
+
+# ------------------to delete category----------------
+def delete_category(req, id):
+    if 'admin' in req.session:
+        try:
+            category = Category.objects.get(id=id)
+            category.delete()
+        except Category.DoesNotExist:
+            pass  # You can add an error message here if needed
+        return redirect(add_category)
+    else:
+        return redirect(log)
+
+
+
+# ------------------to add brand ----------------
+
+def add_brand(req):
+    if 'admin' in req.session:
+        if req.method == 'POST':
+            b_name = req.POST['b_name']
+            Brand.objects.create(b_name=b_name.lower())
+            brands = Brand.objects.all()
+            return render(req, 'admin/add_brand.html', {'brands': brands})
+        else:
+            
+            brands = Brand.objects.all()
+            return render(req, 'admin/add_brand.html', {'brands': brands})
+    else:
+        return redirect(log)
+
+# -----------------to delete a brand -----------------
+
+def delete_brand(req, id):
+    if 'admin' in req.session:
+        try:
+            brand = Brand.objects.get(id=id)
+            brand.delete()
+        except Brand.DoesNotExist:
+            pass  
+        return redirect(add_brand)
     else:
         return redirect(log)
     
 
 
-# add product
+
+#----------------- add product --------------------
 
 def add_pro(req):
     if 'admin' in req.session:
-        if req.method=='POST':
-            pid=req.POST['pid']
-            name=req.POST['name']
-            dis=req.POST['dis']
-            price=req.POST['price']
-            off_price=req.POST['off_price']
-            file=req.FILES['img']
-            gender=req.POST['gender']
-            pro_category=req.POST['pro_category']
-            pro_brand=req.POST['pro_brand']
-            data=Product.objects.create(pid=pid,name=name,dis=dis,price=price,off_price=off_price,img=file,
-                                        gender=gender,pro_category=pro_category,pro_brand=pro_brand)
+        if req.method == 'POST':
+            pid = req.POST['pid']
+            name = req.POST['name']
+            dis = req.POST['dis']
+            price = req.POST['price']
+            off_price = req.POST['off_price']
+            file = req.FILES['img']
+            gender = req.POST['gender']
+            pro_category_id = req.POST['pro_category']  # Get selected category ID
+            pro_brand_id = req.POST['pro_brand']  # Get selected brand ID
+            
+            # Fetch the related Category and Brand objects
+            pro_category = Category.objects.get(id=pro_category_id)
+            pro_brand = Brand.objects.get(id=pro_brand_id)
+            
+            # Save the product with the related Category and Brand
+            data = Product.objects.create(
+                pid=pid,
+                name=name,
+                dis=dis,
+                price=price,
+                off_price=off_price,
+                img=file,
+                gender=gender,
+                pro_category=pro_category,
+                pro_brand=pro_brand
+            )
             data.save()
             return redirect(admin_home)
         else:
-            return render(req,'admin/add_pro.html')
+            # Fetch categories and brands to populate dropdowns
+            categories = Category.objects.all()
+            brands = Brand.objects.all()
+            return render(req, 'admin/add_pro.html', {'categories': categories, 'brands': brands})
     else:
         return redirect(log)
     
 
-# admin home 
+# ----------------admin home---------------- 
     
 def admin_home(req):
     if 'admin' in req.session:
@@ -98,13 +164,18 @@ def pro_list(req):
     else:
         return redirect(log)
 
-# to change carousel
+# -----------------to change carousel--------------------
 
 def carousel(req):
     return render(req,'admin/carousel.html')
 
 
-# user home
+
+
+
+
+
+# ---------------------user home --------------------------
 
 def user_home(req):
     return render(req,'user/uhome.html')
@@ -114,7 +185,7 @@ def about(req):
     return render(req,'user/about.html')
 
 
-# registration function
+# ------------------------registration function------------------------
 
 def reg(req):
     if req.method=='POST':

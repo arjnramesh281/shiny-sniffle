@@ -133,12 +133,12 @@ def add_pro(req):
                 price=price,
                 off_price=off_price,
                 img=file,
-                gender=gender,
+                gender=gender.lower(),
                 pro_category=pro_category,
                 pro_brand=pro_brand
             )
             data.save()
-            return redirect(admin_home)
+            return redirect(add_pro)
         else:
             # Fetch categories and brands to populate dropdowns
             categories = Category.objects.all()

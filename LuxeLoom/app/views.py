@@ -148,6 +148,60 @@ def add_pro(req):
         return redirect(log)
     
 
+#------------------ add stock--------------------
+
+def add_size_stock(req):
+    if 'admin' in req.session:  # Ensure only admin users can access
+        if req.method == 'POST':
+            # Fetch form data
+            product_id = req.POST['name']  # Product ID selected from dropdown
+            s_size = req.POST.get('s_size', '').strip()  # Shirt size (optional)
+            p_size = req.POST.get('p_size')  # Pants size (optional)
+            stock = req.POST['stock']  # Stock quantity (required)
+
+            # Fetch the product instance
+            try:
+                product = Product.objects.get(id=product_id)
+            except Product.DoesNotExist:
+                return render(req, 'admin/add_size_stock.html', {
+                    'error': "Selected product does not exist.",
+                    'products': Product.objects.all()
+                })
+
+            # Create new size-stock entry
+            Size.objects.create(
+                product=product,
+                s_size=s_size.upper() if s_size else None,  # Convert shirt size to uppercase
+                p_size=int(p_size) if p_size else None,  # Convert pants size to integer
+                stock=int(stock)  # Convert stock to integer
+            )
+
+            # Fetch updated size-stock entries
+            sizes = Size.objects.all()
+            products = Product.objects.all()  # Needed for the dropdown
+
+            return render(req, 'admin/add_size_stock.html', {
+                'success': "Stock added successfully!",
+                'sizes': sizes,
+                'products': products
+            })
+        else:
+            # Fetch all sizes and products for GET requests
+            sizes = Size.objects.all()
+            products = Product.objects.all()
+
+            return render(req, 'admin/add_size_stock.html', {
+                'sizes': sizes,
+                'products': products
+            })
+    else:
+        return redirect(log)
+
+
+
+
+
+
 # ----------------admin home---------------- 
     
 def admin_home(req):

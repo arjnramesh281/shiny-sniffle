@@ -193,7 +193,7 @@
                             <textarea class="form-control" id="description" name="dis" rows="4" placeholder="Enter Product Description" required></textarea>
                         </div>
         
-                        <!-- Price, Discounted Price, and Stock (Same Line) -->
+                        <!-- Price, Discounted Price (Same Line) -->
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="price" class="form-label">Price</label>
@@ -209,11 +209,16 @@
                             </div> -->
                         </div>
         
-                        <!-- Size of Product -->
+                        <!-- Gender -->
                         <div class="mb-3">
-                            <label for="gender" class="form-label">Gender(Men/Women)</label>
-                            <input type="text" class="form-control" id="variant" name="gender" placeholder="Enter Gender" required>
+                            <label for="gender" class="form-label">Gender (Men/Women)</label>
+                            <select class="form-control" id="gender" name="gender" required>
+                                <option value="" disabled selected>Select Gender</option>
+                                <option value="Men">Men</option>
+                                <option value="Women">Women</option>
+                            </select>
                         </div>
+
         
                         <!-- Category Dropdown -->
                         <div class="mb-3">
@@ -249,6 +254,52 @@
                         </div>
                     </form>
                 </div>
+                
+                        <!-- add stock and size main -->
+                        <div class="card shadow-lg p-4 my-4 admin-card">
+                            <h2 class="text-center mb-4">Size and Stock</h2>
+                            <form method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+
+                                <!-- Products Name Dropdown -->
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Products Name</label>
+                                    <select class="form-control" id="name" name="name" required>
+                                        <option value="" disabled selected>Select The Product To Add Stock In</option>
+                                        {% for pro in products %}
+                                            <option value="{{ brand.id }}">{{ pro.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>                                 
+                                    
+
+                                <!-- shirt size -->
+                                <div class="row mb-3">                                 
+                                <div class="mb-3 col-md-4">
+                                    <label for="s_size" class="form-label">Shirt Size( S , M , L , XL )</label>
+                                    <input type="text" class="form-control" id="s_size" name="s_size" placeholder="Add Shirt Size(in capital)">
+                                </div>
+                
+                                <!-- pants size -->
+                                <div class="mb-3 col-md-4">
+                                    <label for="p_size" class="form-label">Pants Size( 24, 25, 26, 27, 28, 30, 32, 34, 36 )</label>
+                                    <input type="number" class="form-control" id="p_size" name="p_size" placeholder="Add Pants Size(in numbers)">
+                                </div>
+
+                                <!-- stock adding -->
+                                <div class="col-md-4">
+                                    <label for="stock" class="form-label">Stock Quantity</label>
+                                    <input type="number" class="form-control" id="stock" name="stock" placeholder="Enter Stock Quantity" required>
+                                </div>
+
+                                </div>
+                
+                                <!-- Submit Button -->
+                                <div class="d-flex justify-content-end">
+                                    <button type="submit" class="btn btn-dark px-4">Add Stock</button>
+                                </div>
+                            </form>
+                        </div>
             </div>
         </div>
                 

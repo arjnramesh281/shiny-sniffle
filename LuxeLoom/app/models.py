@@ -23,6 +23,6 @@ class Product(models.Model):
 
 class Size(models.Model):
     product=models.ForeignKey(Product,on_delete=models.CASCADE)
-    s_size=models.TextField(null=True)
-    p_size=models.TextField(null=True)
+    s_size=models.CharField(null=True,max_length=10)
+    p_size=models.PositiveIntegerField(null=True)
     stock=models.PositiveIntegerField()

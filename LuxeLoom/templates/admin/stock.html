@@ -11,7 +11,7 @@
 
     {% load static %}
     <!-- css links.. -->
-     <link rel="stylesheet" href="{% static '/css/admin/home.css' %}">
+    <link rel="stylesheet" href="{% static '/css/admin/home.css' %}">
 </head>
 <body>
     <div class="admin-container">
@@ -57,6 +57,7 @@
                                 <i class="fas fa-list"></i> Product List
                             </a>
                         </li>
+
                     </ul>
                 </li>
                 <!-- <li class="nav-item">
@@ -150,7 +151,7 @@
         </div>
 
         <!-- Main Content Area -->
-        <div class="main-content ">
+        <div class="main-content">
             <!-- Admin Navbar -->
             <nav class="admin-navbar">
                 <div class="search-bar">
@@ -173,60 +174,56 @@
                 </div>
             </nav>
 
-
-            <div class="card shadow-lg p-4 my-4 admin-card">
-                <h2 class="text-center mb-4">Add New Category</h2>
-                <form method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-    
-                    <!-- Category Name -->
-                    <div class="mb-3">
-                        <label for="c_name" class="form-label">Category Name</label>
-                        <input type="text" class="form-control" id="c_name" name="c_name" placeholder="Add Category" required>
-                    </div>
-    
-                    <!-- Submit Button -->
-                    <div class="d-flex justify-content-end">
-                        <button type="submit" class="btn btn-dark px-4">Add Category</button>
-                    </div>
-                </form>
-            </div>
-
-
-            <!-- view category  -->
-
-            <div class="main-content mt-0 ms-0 w-100">
-                <div class="row w-100">
-                    {% for cat in categories %}
-                    <div class="col-12 mb-3 d-flex w-50">
-                        <div class="d-flex w-100 align-items-center border p-3 rounded shadow-sm" style="background-color: azure;">
-                            <!-- Product Name and Actions -->
-                            <div class="ml-3 w-100">
-                                <div class="d-flex justify-content-between">
-                                    <h5 class="mb-0 text-truncate">{{ cat.c_name }}</h5>
-                                    <!-- Delete Button -->
-                                    <a href="{% url 'delete_category' cat.id %}" class="btn btn-outline-dark btn-sm" onclick="return confirm('Are you sure you want to delete this category?');">
-                                        <i class="fas fa-trash-alt"></i> Delete
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                    {% if not categories %}
-                    <div class="col-12">
-                        <p class="text-center text-muted">No categories available.</p>
-                    </div>
-                    {% endif %}
-                </div>
-            </div>
             
+                    <!-- add stock and size main -->
+                    <div class="card shadow-lg p-4 my-4 admin-card">
+                        <h2 class="text-center mb-4">Size and Stock</h2>
+                        <form method="post" enctype="multipart/form-data" >
+                            {% csrf_token %}
 
 
+                            <!-- Products Name Dropdown -->
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Products Name</label>
+                                <select class="form-control" id="name" name="name" required>
+                                    <option value="" disabled selected>Select The Product</option>
+                                    {% for pro in products %}
+                                        <option value="{{ pro.pk }}">{{ pro.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div> 
+
+
+                            <!-- shirt size -->
+                            <div class="row mb-3">                                 
+                            <div class="mb-3 col-md-4">
+                                <label for="s_size" class="form-label">Shirt Size( S , M , L , XL )</label>
+                                <input type="text" class="form-control" id="s_size" name="s_size" placeholder="Add Shirt Size(in capital)">
+                            </div>
+            
+                            <!-- pants size -->
+                            <div class="mb-3 col-md-4">
+                                <label for="p_size" class="form-label">Pants Size( 24, 25, 26, 27, 28, 30, 32, 34, 36 )</label>
+                                <input type="number" class="form-control" id="p_size" name="p_size" placeholder="Add Pants Size(in numbers)">
+                            </div>
+
+                            <!-- stock adding -->
+                            <div class="col-md-4">
+                                <label for="stock" class="form-label">Stock Quantity</label>
+                                <input type="number" class="form-control" id="stock" name="stock" placeholder="Enter Stock Quantity" required>
+                            </div>
+
+                            </div>
+            
+                            <!-- Submit Button -->
+                            <div class="d-flex justify-content-end">
+                                <button type="submit" class="btn btn-dark px-4">Add Stock</button>
+                            </div>
+                        </form>
+                    </div>
         </div>
     </div>
-
-              
+            
 
     <!-- Bootstrap JS and Font Awesome -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

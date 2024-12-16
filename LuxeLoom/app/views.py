@@ -150,55 +150,89 @@ def add_pro(req):
 
 #------------------ add stock--------------------
 
+
+
 def add_size_stock(req):
-    if 'admin' in req.session:  # Ensure only admin users can access
+    if 'admin' in req.session:
         if req.method == 'POST':
-            # Fetch form data
-            product_id = req.POST['name']  # Product ID selected from dropdown
-            s_size = req.POST.get('s_size', '').strip()  # Shirt size (optional)
-            p_size = req.POST.get('p_size')  # Pants size (optional)
-            stock = req.POST['stock']  # Stock quantity (required)
-
-            # Fetch the product instance
-            try:
-                product = Product.objects.get(id=product_id)
-            except Product.DoesNotExist:
-                return render(req, 'admin/add_size_stock.html', {
-                    'error': "Selected product does not exist.",
-                    'products': Product.objects.all()
-                })
-
-            # Create new size-stock entry
-            Size.objects.create(
-                product=product,
-                s_size=s_size.upper() if s_size else None,  # Convert shirt size to uppercase
-                p_size=int(p_size) if p_size else None,  # Convert pants size to integer
-                stock=int(stock)  # Convert stock to integer
-            )
-
-            # Fetch updated size-stock entries
-            sizes = Size.objects.all()
-            products = Product.objects.all()  # Needed for the dropdown
-
-            return render(req, 'admin/add_size_stock.html', {
-                'success': "Stock added successfully!",
-                'sizes': sizes,
-                'products': products
-            })
+            products = req.POST['name']  
+            pro=Product.objects.get(pk=products)
+            s_size = req.POST['s_size'].strip().upper()
+            if s_size=='':
+                s_size=None
+            p_size = req.POST.get('p_size')
+            if p_size.isdigit():
+                print(p_size,type(p_size)) 
+                pass
+            else:
+                p_size=None
+            stock = req.POST['stock']
+            data=Size.objects.create(product=pro,s_size=s_size,p_size=p_size,  stock=stock)
+            data.save()
+            return redirect(add_size_stock)
         else:
-            # Fetch all sizes and products for GET requests
-            sizes = Size.objects.all()
             products = Product.objects.all()
+            return render(req, 'admin/stock.html',{'products': products})
+    else:
+        return redirect(log)  
 
-            return render(req, 'admin/add_size_stock.html', {
-                'sizes': sizes,
-                'products': products
+
+# -----------------edit Product----------------
+def edit_pro(req,id):
+    if 'admin' in req.session:  # Check if admin is logged in
+        try:
+            # Fetch the existing product by ID
+            product = Product.objects.get(id=id)
+        except Product.DoesNotExist:
+            # Handle the case where the product does not exist
+            return redirect(add_pro)
+
+        if req.method == 'POST':
+            # Update product details
+            product.name = req.POST['name']
+            product.dis = req.POST['dis']
+            product.price = req.POST['price']
+            product.off_price = req.POST['off_price']
+            product.gender = req.POST['gender'].lower()
+
+            # Check if an image was uploaded
+            if 'img' in req.FILES:
+                product.img = req.FILES['img']
+
+            # Update the related Category and Brand
+            pro_category_id = req.POST['pro_category']
+            pro_brand_id = req.POST['pro_brand']
+            product.pro_category = Category.objects.get(id=pro_category_id)
+            product.pro_brand = Brand.objects.get(id=pro_brand_id)
+
+            product.save()  # Save the updated product
+            return redirect(add_pro)  # Redirect to product list or desired page
+        else:
+            # Fetch categories and brands to populate dropdowns
+            categories = Category.objects.all()
+            brands = Brand.objects.all()
+            return render(req, 'admin/edit_pro.html', {
+                'product': product,
+                'categories': categories,
+                'brands': brands
             })
     else:
+        return redirect(log)  # Redirect to login if not an admin
+
+
+# ---------------delete product----------------
+
+def delete_pro(req, id):
+    if 'admin' in req.session:
+        try:
+            brand = Product.objects.get(id=id)
+            brand.delete()
+        except Product.DoesNotExist:
+            pass  
+        return redirect(add_pro)
+    else:
         return redirect(log)
-
-
-
+    
 
 
 

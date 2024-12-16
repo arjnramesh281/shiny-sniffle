@@ -21,7 +21,14 @@ urlpatterns=[
     path('delete_category/<int:id>/', views.delete_category, name='delete_category'),
 
     # add product
-    path('add_pro',views.add_pro),
+    path('add_pro', views.add_pro, name='add_pro'),
+    path('add_stock', views.add_size_stock, name='add_stock'),
+
+    # edit product
+    path('edit_pro/<id>',views.edit_pro),
+
+    # delete product
+       path('delete_pro/<int:id>/', views.delete_pro, name='delete_pro'),
 
     # add carousel
     path('carousel_edit',views.carousel),

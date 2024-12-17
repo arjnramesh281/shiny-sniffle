@@ -273,6 +273,27 @@ def about(req):
     return render(req,'user/about.html')
 
 
+# ---------------user view product---------------------
+
+
+def view_product(req,id):
+    data= Product.objects.get(pk=id)
+    return render(req,'user/view_pro.html',{'product': data})
+
+
+
+#--------------- view all products--------------
+
+
+def allpro(req):
+    if 'user' in req.session:
+        data=Product.objects.all()
+        return render(req,"user/allpro.html",{"products":data})
+    else:
+        return redirect(log)
+
+
+
 # ------------------------registration function------------------------
 
 def reg(req):

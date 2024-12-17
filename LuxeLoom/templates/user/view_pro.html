@@ -28,13 +28,13 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="userhome">Home</a>
+                        <a class="nav-link" href="../userhome">Home</a>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown" href="about" role="button" data-bs-toggle="dropdown">
                                 Collections
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="allpro">All</a></li>  
+                                <li><a class="dropdown-item" href="#">All</a></li>  
                                 <li><a class="dropdown-item" href="#">Men</a></li>
                                 <li><a class="dropdown-item" href="#">Women</a></li>
                                 <li><a class="dropdown-item" href="#">New Arrivals</a></li>
@@ -42,7 +42,7 @@
                         </li>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="about">About Us</a>
+                        <a class="nav-link" href="../about">About Us</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Contact Us</a>
@@ -59,7 +59,7 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#">Profile</a></li>
                             <li><a class="dropdown-item" href="#">Settings</a></li>
-                            <li><a class="dropdown-item" href="logout">Logout</a></li>
+                            <li><a class="dropdown-item" href="../logout">Logout</a></li>
                         </ul>
                     </div>
                     
@@ -68,74 +68,29 @@
         </div>
     </nav>
 
-    <!-- Carousel (Remains the same as previous version) -->
-    <div id="offerCarousel" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="{% static '/images/banner.png' %}" class="d-block w-100" alt="Summer Collection">
-                <div class="offer-overlay">
-                    <h2>Summer Collection</h2>
-                    <p>Up to 50% Off on Latest Styles</p>
-                    <a href="#" class="btn btn-light">Shop Now</a>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <img src="{% static '/images/banner.png' %}" class="d-block w-100" alt="New Season Trends">
-                <div class="offer-overlay">
-                    <h2>New Season Trends</h2>
-                    <p>Fresh Looks, Unbeatable Prices</p>
-                    <a href="#" class="btn btn-light">Explore Collection</a>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <img src="{% static '/images/banner.png' %}" class="d-block w-100" alt="Designer Wear Sale">
-                <div class="offer-overlay">
-                    <h2>Designer Wear Sale</h2>
-                    <p>Luxury Brands at Discount Prices</p>
-                    <a href="#" class="btn btn-light">Shop Sale</a>
-                </div>
-            </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#offerCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#offerCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
+     <!-- card details -->
+   <div class="container my-5">
+    <div class="row">
+    <div class="col-lg-5">
+        <img src="{{product.img.url}}"  style="width: 100%; height: 700px; border: 1px solid black;" alt="">
     </div>
+    <div class="col-lg-6 mx-5">
+        <h3 class="my-5">{{product.name}}</h3>
+        <p class="mb-3">
+            <span  style="text-decoration: line-through;">₹{{product.price}}.00</span>
+            <span style="font-size:larger;">₹{{product.off_price}}.00</span>
+        </p>
+        <a href="../add_to_cart/{{product.pk}}" class="btn btn-outline-dark mb-5">Add to Cart</a>
+        <a href="#" class="btn btn-outline-success mb-5">Buy Now</a>
+        <p class="lh-lg">{{product.dis}}</p>
+    </div>
+    </div>
+   </div>
 
-      <!-- Featured Products Section -->
-      <div class="container product-grid">
-        <h1 class="section-title">New Arrivals</h1>
-        <div class="row">
-            {% for pro in products %}
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="luxe-card-wrapper">
-                    <div class="card luxe-card">
-                        <a href="view_product/{{pro.pk}}" class="text-decoration-none">
-                            <div class="luxe-card-img-container">
-                                <img src="{{pro.img.url}}" alt="{{pro.name}}" class="luxe-card-img">
-                            </div>
-                            <div class="card-body luxe-card-body">
-                                <h4 class="card-title luxe-card-title">{{pro.name}}</h4>
-                                <div class="luxe-price-container">
-                                    <span class="luxe-original-price">₹{{pro.price}}.00</span>
-                                    <span class="luxe-discounted-price">₹{{pro.off_price}}.00</span>
-                                </div>
-                                <button class="btn luxe-view-btn">View Details</button>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
 
     <!-- banner 1 -->
-    <div class="banner-container " style="background-color: black;">
+
+    <!-- <div class="banner-container " style="background-color: black;">
         <img src="{% static '/images/logo2.png' %}" alt="Main Banner" class="banner-image">
         <img src="{% static '/images/registerimg.jpg' %}" alt="Overlay Banner" class="overlapping-image">
         <div class="banner-text">
@@ -143,7 +98,7 @@
             <p>Discover Unique Fashion That Speaks Volumes</p>
             <a href="#" class="btn btn-light">Shop Now</a>
         </div>
-    </div>
+    </div> -->
 
 
     <!-- Footer -->

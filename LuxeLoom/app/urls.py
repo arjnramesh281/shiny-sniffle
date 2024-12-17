@@ -37,6 +37,9 @@ urlpatterns=[
     path('logout',views.admin_logout),
     
 
+# ------------------ user side --------------------
+
+
     # user registration
     path('registration',views.reg),
 
@@ -44,5 +47,10 @@ urlpatterns=[
     path('userhome',views.user_home),
     
     path('about',views.about),
+
+    # view product 
+    path("view_product/<id>",views.view_product),
+    
+    path('allpro',views.allpro),
 
 ]

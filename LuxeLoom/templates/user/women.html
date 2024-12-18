@@ -28,21 +28,21 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="../userhome">Home</a>
+                        <a class="nav-link" href="userhome">Home</a>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown" href="about" role="button" data-bs-toggle="dropdown">
                                 Collections
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="../allpro">All</a></li>  
-                                <li><a class="dropdown-item" href="../menpro">Men</a></li>
-                                <li><a class="dropdown-item" href="../women">Women</a></li>
-                                <li><a class="dropdown-item" href="../new_arrivals">New Arrivals</a></li>
+                                <li><a class="dropdown-item" href="allpro">All</a></li>  
+                                <li><a class="dropdown-item" href="menpro">Men</a></li>
+                                <li><a class="dropdown-item" href="women">Women</a></li>
+                                <li><a class="dropdown-item" href="new_arrivals">New Arrivals</a></li>
                             </ul>
                         </li>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../about">About Us</a>
+                        <a class="nav-link" href="about">About Us</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Contact Us</a>
@@ -59,7 +59,7 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#">Profile</a></li>
                             <li><a class="dropdown-item" href="#">Settings</a></li>
-                            <li><a class="dropdown-item" href="../logout">Logout</a></li>
+                            <li><a class="dropdown-item" href="logout">Logout</a></li>
                         </ul>
                     </div>
                     
@@ -68,53 +68,46 @@
         </div>
     </nav>
 
-     <!-- card details -->
-   <div class="container my-5">
-    <div class="row">
-    <div class="col-lg-5">
-        <img src="{{product.img.url}}"  style="width: 100%; height: 700px; border: 1px solid black;" alt="">
-    </div>
-    <div class="col-lg-6 mx-5">
-        <h3 class="mt-5 mb-3">{{product.name}}</h3>
-        <h4 class="mb-3">{{product.pro_brand.b_name}}</h4>
-        
-        <p class="mb-3">
-            <span  style="text-decoration: line-through;">₹{{product.price}}.00</span>
-            <span style="font-size:larger;">₹{{product.off_price}}.00</span>
-        </p>
-        <div class="dropdown mb-3">
-            <button class="btn btn-outline-dark dropdown-toggle" type="button" id="sizeDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                Select Size
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="sizeDropdown">
-                {% for size in sizes %}
-                <li>
-                    <a class="dropdown-item" href="#">{{ size.p_size }}</a>
-                    <a class="dropdown-item" href="#">{{ size.s_size }}</a>
-                </li>
-                {% endfor %}
-            </ul>
-        </div>
-        <a href="../add_to_cart/{{product.pk}}" class="btn btn-outline-dark mb-5">Add to Cart</a>
-        <a href="#" class="btn btn-outline-success mb-5">Buy Now</a>
-        <h2 class="mb-3">Description</h2>
-        <p class="lh-lg">{{product.dis}}</p>
-    </div>
-    </div>
-   </div>
-
-
     <!-- banner 1 -->
-
-    <!-- <div class="banner-container " style="background-color: black;">
+    <div class="banner-container " style="background-color: black;">
         <img src="{% static '/images/logo2.png' %}" alt="Main Banner" class="banner-image">
         <img src="{% static '/images/registerimg.jpg' %}" alt="Overlay Banner" class="overlapping-image">
         <div class="banner-text">
-            <h1>Explore Your Style</h1>
+            <h1>Womens Collections</h1>
             <p>Discover Unique Fashion That Speaks Volumes</p>
-            <a href="#" class="btn btn-light">Shop Now</a>
+            <a href="#gopro" class="btn btn-light">Shop Now</a>
         </div>
-    </div> -->
+    </div>
+
+      <!-- Featured Products Section -->
+      <div id="gopro" class="container product-grid">
+        <h1 class="section-title">Womens Wears</h1>
+        <div class="row">
+            {% for pro in products %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="luxe-card-wrapper">
+                    <div class="card luxe-card">
+                        <a href="view_product/{{pro.pk}}" class="text-decoration-none">
+                            <div class="luxe-card-img-container">
+                                <img src="{{pro.img.url}}" alt="{{pro.name}}" class="luxe-card-img">
+                            </div>
+                            <div class="card-body luxe-card-body">
+                                <h4 class="card-title luxe-card-title">{{pro.name}}</h4>
+                                <div class="luxe-price-container">
+                                    <span class="luxe-original-price">₹{{pro.price}}.00</span>
+                                    <span class="luxe-discounted-price">₹{{pro.off_price}}.00</span>
+                                </div>
+                                <button class="btn luxe-view-btn">View Details</button>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
 
 
     <!-- Footer -->

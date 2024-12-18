@@ -138,7 +138,7 @@ def add_pro(req):
                 pro_brand=pro_brand
             )
             data.save()
-            return redirect(add_pro)
+            return redirect(add_size_stock)
         else:
             # Fetch categories and brands to populate dropdowns
             categories = Category.objects.all()
@@ -269,6 +269,9 @@ def user_home(req):
     return render(req,'user/uhome.html')
 
 
+
+# --------------about page-----------------
+
 def about(req):
     return render(req,'user/about.html')
 
@@ -278,7 +281,9 @@ def about(req):
 
 def view_product(req,id):
     data= Product.objects.get(pk=id)
-    return render(req,'user/view_pro.html',{'product': data})
+    siz=Size.objects.filter(product=data)
+
+    return render(req,'user/view_pro.html',{'product': data,'sizes':siz})
 
 
 
@@ -289,6 +294,33 @@ def allpro(req):
     if 'user' in req.session:
         data=Product.objects.all()
         return render(req,"user/allpro.html",{"products":data})
+    else:
+        return redirect(log)
+    
+
+# ---------------view mens products---------------
+
+def men_pro(req):
+    if 'user' in req.session:
+        data=Product.objects.filter(gender='men')
+        return render(req,"user/menpro.html",{"products":data})
+    
+
+
+# ---------------view womens products---------------
+
+def women_pro(req):
+    if 'user' in req.session:
+        data=Product.objects.filter(gender='women')
+        return render(req,"user/women.html",{"products":data})
+
+
+# ----------------new arrivals-------------------
+
+def arrival(req):
+    if 'user' in req.session:
+        data=Product.objects.all()[::-1][:10]
+        return render(req,"user/arrivals.html",{"products":data})
     else:
         return redirect(log)
 
@@ -311,10 +343,16 @@ def reg(req):
     else:
      return render(req,'user/register.html')
 
+
+
+
+
 def user_home(req):
     if 'user' in req.session:
-        data=Product.objects.all()
-        return render(req,"user/uhome.html",{"products":data})
+        data=Product.objects.all()[::-1][:3]
+        data1=Product.objects.filter(gender='women')[::-1][:3]
+        data2=Product.objects.filter(pro_brand='3')[:3]
+        return render(req,"user/uhome.html",{"products":data,'womens':data1, 'armani':data2})
     else:
         return redirect(log)
 

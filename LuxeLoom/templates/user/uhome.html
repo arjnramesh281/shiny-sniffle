@@ -35,9 +35,9 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="allpro">All</a></li>  
-                                <li><a class="dropdown-item" href="#">Men</a></li>
-                                <li><a class="dropdown-item" href="#">Women</a></li>
-                                <li><a class="dropdown-item" href="#">New Arrivals</a></li>
+                                <li><a class="dropdown-item" href="menpro">Men</a></li>
+                                <li><a class="dropdown-item" href="women">Women</a></li>
+                                <li><a class="dropdown-item" href="new_arrivals">New Arrivals</a></li>
                             </ul>
                         </li>
                     </li>
@@ -84,7 +84,7 @@
                 <div class="offer-overlay">
                     <h2>New Season Trends</h2>
                     <p>Fresh Looks, Unbeatable Prices</p>
-                    <a href="#" class="btn btn-light">Explore Collection</a>
+                    <a href="../allpro" class="btn btn-light">Explore Collection</a>
                 </div>
             </div>
             <div class="carousel-item">
@@ -141,7 +141,73 @@
         <div class="banner-text">
             <h1>Explore Your Style</h1>
             <p>Discover Unique Fashion That Speaks Volumes</p>
-            <a href="#" class="btn btn-light">Shop Now</a>
+            <a href="../women" class="btn btn-light">Shop Now</a>
+        </div>
+    </div>
+
+      <!-- Featured Products Section -->
+      <div class="container product-grid">
+        <h1 class="section-title">Womens</h1>
+        <div class="row">
+            {% for women in womens %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="luxe-card-wrapper">
+                    <div class="card luxe-card">
+                        <a href="view_product/{{women.pk}}" class="text-decoration-none">
+                            <div class="luxe-card-img-container">
+                                <img src="{{women.img.url}}" alt="{{women.name}}" class="luxe-card-img">
+                            </div>
+                            <div class="card-body luxe-card-body">
+                                <h4 class="card-title luxe-card-title">{{women.name}}</h4>
+                                <div class="luxe-price-container">
+                                    <span class="luxe-original-price">₹{{women.price}}.00</span>
+                                    <span class="luxe-discounted-price">₹{{women.off_price}}.00</span>
+                                </div>
+                                <button class="btn luxe-view-btn">View Details</button>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+   <!-- banner 2 -->
+   <div class="banner-container " style="background-color: black;">
+    <img src="{% static '/images/Banner2.jpg' %}" alt="Main Banner" class="banner-image" style="width: 100%; object-fit: cover;" >
+    <!-- <img src="{% static '/images/registerimg.jpg' %}" alt="Overlay Banner" class="overlapping-image"> -->
+    <!-- <div class="banner-text" style="color: rgb(180, 180, 180);">
+        <h1>Explore Your Style</h1>
+        <p>Discover Unique Fashion That Speaks Volumes</p>
+        <a href="../women" class="btn btn-light">Shop Now</a> -->
+    </div>
+    </div>
+
+          <!-- Featured Products Section -->
+      <div class="container product-grid">
+        <div class="row">
+            {% for arm in armani %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="luxe-card-wrapper">
+                    <div class="card luxe-card">
+                        <a href="view_product/{{arm.pk}}" class="text-decoration-none">
+                            <div class="luxe-card-img-container">
+                                <img src="{{arm.img.url}}" alt="{{arm.name}}" class="luxe-card-img">
+                            </div>
+                            <div class="card-body luxe-card-body">
+                                <h4 class="card-title luxe-card-title">{{arm.name}}</h4>
+                                <div class="luxe-price-container">
+                                    <span class="luxe-original-price">₹{{arm.price}}.00</span>
+                                    <span class="luxe-discounted-price">₹{{arm.off_price}}.00</span>
+                                </div>
+                                <button class="btn luxe-view-btn">View Details</button>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
         </div>
     </div>
 

@@ -53,4 +53,9 @@ urlpatterns=[
     
     path('allpro',views.allpro),
 
+    path('menpro',views.men_pro),
+
+    path('women',views.women_pro),
+    path('new_arrivals',views.arrival),
+
 ]

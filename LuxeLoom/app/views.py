@@ -351,7 +351,7 @@ def user_home(req):
     if 'user' in req.session:
         data=Product.objects.all()[::-1][:3]
         data1=Product.objects.filter(gender='women')[::-1][:3]
-        data2=Product.objects.filter(pro_brand='3')[:3]
+        data2=Product.objects.filter(pro_brand='3')[::-1]
         return render(req,"user/uhome.html",{"products":data,'womens':data1, 'armani':data2})
     else:
         return redirect(log)

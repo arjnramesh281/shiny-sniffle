@@ -12,7 +12,147 @@
     {% load static %}
     <!-- css links -->
     <link rel="stylesheet" href="{% static '/css/user/uhome.css' %}">
-    
+    <style>
+        /* Outer container for horizontal scrolling */
+.scrollable-product-container {
+    overflow-x: auto; /* Enable horizontal scrolling */
+    white-space: nowrap; /* Prevent wrapping */
+    padding-bottom: 10px; /* Space for scrollbar visibility */
+    scrollbar-width: thin; /* For Firefox */
+    display: block; /* Prevent collapsing of container */
+    margin: 0px 10px;
+}
+
+/* Row container to arrange cards horizontally */
+.scrollable-product-row {
+    display: flex; /* Horizontal layout for cards */
+    gap: 19px; /* Space between cards */
+    scroll-snap-type: x mandatory; /* Optional: Smooth snapping when scrolling */
+}
+
+/* Wrapper for each card */
+.scrollable-card-wrapper {
+    flex: 0 0 auto; /* Prevent shrinking or stretching */
+    scroll-snap-align: start; /* Snap alignment for smoother scrolling */
+    box-sizing: border-box; /* Include padding and borders in width */
+}
+
+/* Card styling */
+.scrollable-card {
+    border: 1px solid black;
+    width: 400px; /* Fixed width for all cards */
+    height: 550px; /* Fixed height for all cards */
+    transition: all 0.3s ease;
+    /* border-radius: 12px; */
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    background-color: #d3d3d3; /* Light gray background */
+}
+
+.scrollable-img-container {
+    height: 380px; /* Fixed height for images */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f5f5f5; /* Slightly lighter gray for image container */
+    position: relative;
+    overflow: hidden;
+}
+
+.scrollable-card-img {
+    width: auto; /* Maintain aspect ratio */
+    height: 100%; /* Fit image to container height */
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.scrollable-card:hover .scrollable-card-img {
+    transform: scale(1.1); /* Hover effect */
+}
+
+.scrollable-card-body {
+    padding: 15px;
+    background-color: #d3d3d3; /* Match card background */
+    text-align: center;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.scrollable-card-title {
+    color: black; /* Adjusted to contrast with light gray */
+    font-weight: 600;
+    margin-bottom: 10px;
+    font-size: 1rem; /* Adjusted font size */
+    letter-spacing: 0.5px;
+    word-wrap: break-word; /* Allow breaking long words */
+    white-space: normal; /* Allow text wrapping */
+    overflow: hidden;
+}
+
+.scrollable-price-container {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    margin-bottom: 15px;
+}
+
+.scrollable-original-price {
+    color: grey; /* Strikethrough price in grey */
+    text-decoration: line-through;
+    margin-right: 10px;
+    font-size: 0.9rem;
+}
+
+.scrollable-discounted-price {
+    color: black; /* Adjusted to match card text */
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.scrollable-view-btn {
+    background-color: black; /* Button background */
+    color: white; /* Button text */
+    border: none;
+    padding: 10px 20px;
+    /* border-radius: 6px; */
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.8rem;
+    align-self: center;
+    margin-top: auto;
+}
+
+.scrollable-view-btn:hover {
+    background-color: grey; /* Button hover background */
+    color: white; /* Button hover text */
+    transform: translateY(-3px);
+}
+
+/* Remove underline from links */
+.scrollable-card-link {
+    text-decoration: none;
+    color: inherit; /* Inherit color from parent element */
+}
+
+/* Style scrollbar for horizontal scrolling */
+.scrollable-product-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.scrollable-product-container::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.5); /* Dark scrollbar thumb */
+    /* border-radius: 10px; */
+}
+
+.scrollable-product-container::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0.1); /* Light scrollbar track */
+}
+
+    </style>
 </head>
 
 <body>
@@ -174,7 +314,7 @@
     </div>
 
    <!-- banner 2 -->
-   <div class="banner-container " style="background-color: black;">
+   <div class="banner-container " style="background-color: black; border: 2px solid black;">
     <img src="{% static '/images/Banner2.jpg' %}" alt="Main Banner" class="banner-image" style="width: 100%; object-fit: cover;" >
     <!-- <img src="{% static '/images/registerimg.jpg' %}" alt="Overlay Banner" class="overlapping-image"> -->
     <!-- <div class="banner-text" style="color: rgb(180, 180, 180);">
@@ -184,32 +324,33 @@
     </div>
     </div>
 
-          <!-- Featured Products Section -->
-      <div class="container product-grid">
-        <div class="row">
-            {% for arm in armani %}
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="luxe-card-wrapper">
-                    <div class="card luxe-card">
-                        <a href="view_product/{{arm.pk}}" class="text-decoration-none">
-                            <div class="luxe-card-img-container">
-                                <img src="{{arm.img.url}}" alt="{{arm.name}}" class="luxe-card-img">
-                            </div>
-                            <div class="card-body luxe-card-body">
-                                <h4 class="card-title luxe-card-title">{{arm.name}}</h4>
-                                <div class="luxe-price-container">
-                                    <span class="luxe-original-price">₹{{arm.price}}.00</span>
-                                    <span class="luxe-discounted-price">₹{{arm.off_price}}.00</span>
-                                </div>
-                                <button class="btn luxe-view-btn">View Details</button>
-                            </div>
-                        </a>
+<!-- Featured Products Section -->
+<div class="scrollable-product-container my-5 bg-dark">
+    <div class="scrollable-product-row">
+        {% for arm in armani %}
+        <div class="scrollable-card-wrapper py-4 px-2 ">
+            <div class="card scrollable-card rounded-0">
+                <a href="view_product/{{arm.pk}}" class="scrollable-card-link">
+                    <div class="scrollable-img-container">
+                        <img src="{{arm.img.url}}" alt="{{arm.name}}" class="scrollable-card-img">
                     </div>
-                </div>
+                    <div class="card-body scrollable-card-body">
+                        <h4 class="card-title scrollable-card-title">{{arm.name}}</h4>
+                        <div class="scrollable-price-container">
+                            <span class="scrollable-original-price">₹{{arm.price}}.00</span>
+                            <span class="scrollable-discounted-price">₹{{arm.off_price}}.00</span>
+                        </div>
+                        <button class="btn scrollable-view-btn">View Details</button>
+                    </div>
+                </a>
             </div>
-            {% endfor %}
         </div>
+        {% endfor %}
     </div>
+</div>
+
+
+
 
 
     <!-- Footer -->

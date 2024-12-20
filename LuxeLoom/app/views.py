@@ -276,6 +276,9 @@ def about(req):
     return render(req,'user/about.html')
 
 
+
+
+
 # ---------------user view product---------------------
 
 
@@ -345,7 +348,7 @@ def reg(req):
 
 
 
-
+# -----------------home products display-------------------
 
 def user_home(req):
     if 'user' in req.session:
@@ -356,3 +359,6 @@ def user_home(req):
     else:
         return redirect(log)
 
+
+def user_contact(req):
+    return render(req,'user/contact.html')

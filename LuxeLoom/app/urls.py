@@ -46,7 +46,11 @@ urlpatterns=[
     # user home
     path('userhome',views.user_home),
     
+    # about page
     path('about',views.about),
+
+    # contact page
+    path('contact',views.user_contact),
 
     # view product 
     path("view_product/<id>",views.view_product),

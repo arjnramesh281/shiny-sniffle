@@ -50,7 +50,7 @@ urlpatterns=[
     path('about',views.about),
 
     # contact page
-    path('contact',views.user_contact),
+    path('contact/', views.contact_view, name='contact'),
 
     # view product 
     path("view_product/<id>",views.view_product),
@@ -61,5 +61,13 @@ urlpatterns=[
 
     path('women',views.women_pro),
     path('new_arrivals',views.arrival),
+
+# ------------------cart-------------
+
+    path('cart/', views.view_cart, name='view_cart'),
+    path('add_to_cart/<int:pid>/', views.add_to_cart, name='add_to_cart'),
+    path('update_quantity/<int:item_id>/', views.update_quantity, name='update_quantity'),
+    path('remove_cart/<int:cid>/', views.remove_cart, name='remove_cart'),
+    path('checkout/', views.checkout, name='checkout'),
 
 ]

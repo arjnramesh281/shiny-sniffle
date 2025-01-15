@@ -1,10 +1,10 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import *
 from django.contrib.auth.models import User
 import os
-
 
 # Create your views here.
 
@@ -360,5 +360,153 @@ def user_home(req):
         return redirect(log)
 
 
-def user_contact(req):
-    return render(req,'user/contact.html')
+
+
+def contact_view(request):
+    if request.method == "POST":
+        # Get data from the form
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        subject = request.POST.get('subject')
+        message = request.POST.get('message')
+
+        # Save the message to the database
+        ContactMessage.objects.create(
+            name=name,
+            email=email,
+            subject=subject,
+            message=message
+        )
+
+        # Show success message to the user
+        messages.success(request, "Your message has been sent successfully. We will get back to you soon!")
+        return redirect('contact')  # Redirect to the contact page after submission
+
+    return render(request, 'user/contact.html')
+
+
+
+# ----------------------cart-----------------------
+
+def view_cart(req):
+    if 'user' in req.session:
+        user = User.objects.get(username=req.session['user'])
+        cart_items = Cart.objects.filter(user=user)
+
+        cart_total = 0  # Initialize total
+
+        # Add calculated prices to each cart item
+        for item in cart_items:
+            # Determine the price for the product (off_price if available, else regular price)
+            display_price = item.product.off_price if item.product.off_price else item.product.price
+            item.display_price = display_price
+
+            # Calculate total price for the item (quantity * price)
+            item.total_price = item.quantity * item.display_price
+
+            # Add the item total price to the cart total
+            cart_total += item.total_price
+
+        # Pass the cart items and cart total to the template
+        return render(req, 'user/cart.html', {'cart_items': cart_items, 'cart_total': cart_total})
+    else:
+        return redirect('login')
+
+
+
+
+# -------------add---------------
+
+def add_to_cart(request, pid):
+    if 'user' in request.session:
+        user = User.objects.get(username=request.session['user'])
+        product = get_object_or_404(Product, pk=pid)
+        size_id = request.GET.get('size_id', None)
+
+        size = Size.objects.filter(pk=size_id, product=product).first() if size_id else None
+        product_price = product.off_price if product.off_price else product.price
+
+        try:
+            cart = Cart.objects.get(user=user, product=product, size=size)
+            cart.quantity += 1
+            cart.save()
+        except Cart.DoesNotExist:
+            Cart.objects.create(user=user, product=product, size=size, quantity=1)
+
+        return redirect('view_cart')
+    else:
+        return redirect('login')
+    
+# ---------------update-------------
+
+
+def update_quantity(req, item_id):
+    # Check if the user is logged in via session
+    if 'user' in req.session:
+        user = User.objects.get(username=req.session['user'])
+        item = get_object_or_404(Cart, pk=item_id, user=user)
+
+        # Handle the action to increase or decrease quantity
+        action = req.POST.get('action')
+        quantity = int(req.POST.get('quantity'))
+
+        if action == 'increase':
+            item.quantity += 1
+        elif action == 'decrease' and item.quantity > 1:
+            item.quantity -= 1
+        else:
+            return redirect('view_cart')
+
+        # Update the total price based on the new quantity
+        item.save()
+
+        return redirect('view_cart')
+    else:
+        return redirect('login')
+
+
+# ---------------------remove----------------------
+
+
+def remove_cart(request, cid):
+    if 'user' in request.session:
+        user = User.objects.get(username=request.session['user'])
+        cart_item = get_object_or_404(Cart, pk=cid, user=user)
+        cart_item.delete()
+        return redirect('view_cart')
+    else:
+        return redirect('login')
+
+
+# -----------------checkout----------------------
+
+
+def checkout(request):
+    if 'user' in request.session:
+        user = User.objects.get(username=request.session['user'])
+        cart_items = Cart.objects.filter(user=user)
+        cart_total = 0  # Initialize total
+
+        # Add calculated prices to each cart item
+        for item in cart_items:
+            # Determine the price for the product (off_price if available, else regular price)
+            display_price = item.product.off_price if item.product.off_price else item.product.price
+            item.display_price = display_price
+
+            # Calculate total price for the item (quantity * price)
+            item.total_price = item.quantity * item.display_price
+
+            # Add the item total price to the cart total
+            cart_total += item.total_price+1
+
+        if not cart_items.exists():
+            return redirect('view_cart')
+
+        if request.method == "POST":
+            # Handle checkout process
+            return render(request, 'user/checkout_success.html')
+        
+
+        return render(request, 'user/checkout.html', {'cart': cart_items,'cart_total': cart_total})
+    else:
+        return redirect('login')

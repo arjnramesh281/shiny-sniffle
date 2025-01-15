@@ -48,7 +48,7 @@
                         <a class="nav-link" href="../contact">Contact Us</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">CART</a>
+                        <a class="nav-link" href="../cart">CART</a>
                     </li>
                     <div class="dropdown">
                         <img src="{% static '/images/Profile.jpeg' %}" 
@@ -68,41 +68,52 @@
         </div>
     </nav>
 
-     <!-- card details -->
-   <div class="container my-5">
+   <!-- card details -->
+
+   <!-- Product Details -->
+<div class="container my-5">
     <div class="row">
-    <div class="col-lg-5">
-        <img src="{{product.img.url}}"  style="width: 100%; height: 700px; border: 1px solid black;" alt="">
-    </div>
-    <div class="col-lg-7 ">
-        <h3 class="mt-5 mb-3">{{product.name}}</h3>
-        <h2 class="mb-3 text-uppercase" style="color: rgb(236, 135, 52);">{{product.pro_brand.b_name}}</h2>
-        <h4 class="mb-3 text-capitalize">{{product.gender}}</h4>
-        
-        <p class="mb-3">
-            <span  style="text-decoration: line-through;">₹{{product.price}}.00</span>
-            <span style="font-size:larger;">₹{{product.off_price}}.00</span>
-        </p>
-        <div class="dropdown mb-3">
-            <button class="btn btn-outline-dark dropdown-toggle" type="button" id="sizeDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                Select Size
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="sizeDropdown">
-                {% for size in sizes %}
-                <li>
-                    <a class="dropdown-item" href="#">{{ size.p_size }}</a>
-                    <a class="dropdown-item" href="#">{{ size.s_size }}</a>
-                </li>
-                {% endfor %}
-            </ul>
+        <div class="col-lg-5">
+            <img src="{{ product.img.url }}" style="width: 100%; height: 700px; border: 1px solid black;" alt="">
         </div>
-        <a href="../add_to_cart/{{product.pk}}" class="btn btn-outline-dark mb-5">Add to Cart</a>
-        <a href="#" class="btn btn-outline-success mb-5">Buy Now</a>
-        <h2 class="mb-3">Description</h2>
-        <p class="lh-lg">{{product.dis}}</p>
+        <div class="col-lg-7">
+            <h3 class="mt-5 mb-3">{{ product.name }}</h3>
+            <h2 class="mb-3 text-uppercase" style="color: rgb(236, 135, 52);">{{ product.pro_brand.b_name }}</h2>
+            <h4 class="mb-3 text-capitalize">{{ product.gender }}</h4>
+            
+            <p class="mb-3">
+                <span style="text-decoration: line-through;">₹{{ product.price }}.00</span>
+                <span style="font-size: larger;">₹{{ product.off_price }}.00</span>
+            </p>
+
+            <!-- Size Selector -->
+            <form method="GET" action="{% url 'add_to_cart' product.id %}">
+                <div class="dropdown mb-3">
+                    <select name="size_id" class="form-select">
+                        <option value="">-- Select Size --</option>
+                        {% for size in sizes %}
+                        <option value="{{ size.id }}">
+                            {% if size.s_size %}{{ size.s_size }}{% endif %}
+                            {% if size.p_size %} ({{ size.p_size }}){% endif %}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <!-- Add to Cart Button -->
+                <button type="submit" class="btn btn-outline-dark mb-5">Add to Cart</button>
+            </form>
+
+            <a href="#" class="btn btn-outline-success mb-5">Buy Now</a>
+
+            <!-- Description -->
+            <h2 class="mb-3">Description</h2>
+            <p class="lh-lg">{{ product.dis }}</p>
+        </div>
     </div>
-    </div>
-   </div>
+</div>
+
+
+
 
 
     <!-- banner 1 -->
